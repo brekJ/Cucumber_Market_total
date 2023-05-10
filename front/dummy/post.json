@@ -1,0 +1,32 @@
+{
+  "posts": [
+    {
+      "postID": 1,
+      "UserID": 1,
+      "CategoryID": 3001,
+      "PostTitle": "best",
+      "PostCost": 200,
+      "PostImage": null,
+      "PostContent": "best",
+      "PostDealDone": "done",
+      "TownID": 1,
+      "Created": "2020-01-01 01:01:01",
+      "Updated": null,
+      "Statuss": 1
+    },
+    {
+      "postID": 2,
+      "UserID": 2,
+      "CategoryID": 3002,
+      "PostTitle": "besttwo",
+      "PostCost": 200,
+      "PostImage": null,
+      "PostContent": "best2",
+      "PostDealDone": "none",
+      "TownID": 1,
+      "Created": "2020-01-01 01:01:02",
+      "Updated": null,
+      "Statuss": 1
+    }
+  ]
+}
