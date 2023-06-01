@@ -15,11 +15,11 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping
-    public ResponseEntity<String> uploadImage(@RequestParam("image") String base64Data) {
+    public ResponseEntity<String> uploadImage(@RequestParam("fileName") String fileName, @RequestParam("image") String base64Data) {
         try {
             String type = base64Data.substring(base64Data.indexOf(":") + 1, base64Data.indexOf(";"));
             byte[] bi = org.apache.commons.codec.binary.Base64.decodeBase64((base64Data.substring(base64Data.indexOf(",") + 1)).getBytes());
-            String fileUrl = imageService.uploadFile(bi, type);
+            String fileUrl = imageService.uploadFile(bi, fileName, type);
             return new ResponseEntity<>(fileUrl, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

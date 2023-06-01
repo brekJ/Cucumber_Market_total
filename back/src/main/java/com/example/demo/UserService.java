@@ -32,7 +32,6 @@ public class UserService {
     public User checkUserInfo(String userID, String password) {
         List<User> list = userRepository.findByUserIDAndPassword(userID, password);
         int size = list.size();
-        System.out.println(size);
         if (size == 0) {
             return null;
         } else if (size == 1) {
@@ -44,7 +43,6 @@ public class UserService {
     public User checkId(String userID) {
         List<User> list = userRepository.findByUserID(userID);
         int size = list.size();
-        System.out.println(size);
         if (size == 0) {
             return null;
         } else if (size == 1) {
@@ -59,5 +57,22 @@ public class UserService {
 
     public void deleteById(int id) {
         userRepository.deleteById(id);
+    }
+    public List<Integer> getFavoritePostIds(int userId) {
+        User user = findById(userId);
+        return user.getFavoritePostID();
+    }
+    public User addFavoritePostId(int userId, int postId) {
+        User user = findById(userId);
+        List<Integer> favoritePostIds = user.getFavoritePostID();
+        favoritePostIds.add(postId);
+        return userRepository.save(user);
+    }
+
+    public User removeFavoritePostId(int userId, int postId) {
+        User user = findById(userId);
+        List<Integer> favoritePostIds = user.getFavoritePostID();
+        favoritePostIds.removeIf(id -> id == postId);
+        return userRepository.save(user);
     }
 }

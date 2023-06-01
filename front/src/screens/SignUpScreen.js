@@ -2,7 +2,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button, Input } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createUser, checkUserID } from '../functions/CRUDFunctions';
 import { Routes } from '../navigations/routes';
 import { GREEN } from '../colors';
@@ -26,6 +26,9 @@ const SignUpScreen = () => {
   const [userName, setUsername] = useState('');
   const [userID, setUserID] = useState('');
   const [password, setPassword] = useState('');
+  const [userIDColor, setUserIDColor] = useState('red');
+  const [userIDErrorMessage, setUserIDErrorMessage] =
+    useState('필수 입력 항목입니다.');
   const [valid, setValid] = useState(false);
 
   const createUserFd = () => {
@@ -35,6 +38,8 @@ const SignUpScreen = () => {
     formdata.append('password', password);
     formdata.append('created', currentTime);
     formdata.append('updated', currentTime);
+    formdata.append('favoritePostID', []);
+    formdata.append('userImage', '');
     formdata.append('statuss', 1);
     return formdata;
   };
@@ -42,8 +47,11 @@ const SignUpScreen = () => {
   const onCheckDuplicateHandler = async () => {
     checkUserID(userID)
       .then((res) => {
-        console.log(res);
-        setValid(true);
+        if (res !== '' && res !== undefined) {
+          setValid(false);
+        } else {
+          setValid(true);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -55,7 +63,6 @@ const SignUpScreen = () => {
     if (userName !== '' && userID !== '' && password !== '' && valid) {
       createUser(createUserFd())
         .then((res) => {
-          console.log(res);
           if (res !== '' && res !== undefined) {
             dispatch(setLoginUser(res));
             navigation.reset({
@@ -69,6 +76,20 @@ const SignUpScreen = () => {
         });
     }
   };
+
+  useEffect(() => {
+    if (userID !== '') {
+      if (valid) {
+        setUserIDColor('green');
+        setUserIDErrorMessage('사용 가능한 아이디입니다.');
+      } else {
+        setUserIDErrorMessage('');
+      }
+    } else if (userID === '') {
+      setUserIDColor('red');
+      setUserIDErrorMessage('필수 입력 항목입니다.');
+    }
+  }, [userID, valid]);
 
   return (
     <View style={[{ paddingTop: top, paddingBottom: bottom }, styles.root]}>
@@ -87,10 +108,11 @@ const SignUpScreen = () => {
           containerStyle={{ flex: 3 }}
           placeholder="아이디 입력"
           onChangeText={(text) => {
+            setValid(false);
             setUserID(text);
           }}
-          errorStyle={{ color: 'red' }}
-          errorMessage={userID !== '' ? '' : '필수 입력 항목입니다.'}
+          errorStyle={{ color: userIDColor }}
+          errorMessage={userIDErrorMessage}
         />
         <Button
           buttonStyle={{ backgroundColor: GREEN.START_GREEN }}

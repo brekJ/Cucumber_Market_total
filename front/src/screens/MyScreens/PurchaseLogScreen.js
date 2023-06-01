@@ -1,16 +1,33 @@
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import MyPostItem from '../../components/MyPostItem';
-import { Routes } from '../../navigations/routes';
-import { posts } from '../../../dummy/post.json';
 import { WHITE } from '../../colors';
+import { useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { getChatRooms } from '../../functions/CRUDFunctions';
+import MyPostItem from '../../components/MyPostItem';
+
 const PurchaseLogScreen = () => {
-  const navigation = useNavigation();
+  const loginUser = useSelector((state) => state.User.loginUser);
+
+  const [listItems, setListItems] = useState([]);
+
+  useEffect(() => {
+    getChatRooms(loginUser.userTableID).then((res) => {
+      const posts = res.map((room) => {
+        if (room.buyerUser.userTableID === loginUser.userTableID) {
+          return room.post;
+        } else {
+          return;
+        }
+      });
+      setListItems(posts);
+    });
+  }, []);
+
   return (
     <View style={styles.container}>
       <View>
         <FlatList
-          data={posts}
+          data={listItems}
           renderItem={({ item }) => {
             return <MyPostItem post={item} />;
           }}

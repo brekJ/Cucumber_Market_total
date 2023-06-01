@@ -9,16 +9,19 @@ import {
 import propTypes from 'prop-types';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { GREEN, WHITE, DANGER } from '../colors';
+import { GREEN, WHITE } from '../colors';
 import { userMade, categoryMade, postMade } from '../functions/Setting';
 import { Routes } from '../navigations/routes';
 import { useEffect } from 'react';
 
 const MainScreen = () => {
   const navigation = useNavigation();
-  useEffect(()=>{
-    categoryMade()
-  },[])
+
+  // useEffect(() => {
+  //   // userMade(4);
+  //   categoryMade();
+  //   // postMade();
+  // },[]);
 
   return (
     <LinearGradient
@@ -43,7 +46,7 @@ const MainScreen = () => {
         </View>
         <View style={styles.imageContainer}>
           <Image
-            source={require('../../assets/images/mainIcon.png')}
+            source={require('../../assets/images/cucumber.jpeg')}
             style={styles.image}
           ></Image>
         </View>
@@ -70,15 +73,6 @@ const MainScreen = () => {
             </Text>
           </Pressable>
         </View>
-        <Pressable
-          onPress={() => {
-            //categoryMade();
-            userMade(4);
-            postMade();
-          }}
-        >
-          <Text style={{ fontSize: 24, color: DANGER.DEFAULT }}>dummySet</Text>
-        </Pressable>
       </View>
     </LinearGradient>
   );

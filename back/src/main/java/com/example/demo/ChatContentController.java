@@ -21,14 +21,10 @@ public class ChatContentController {
         return chatContentService.save(chatContent);
     }
 
-    @GetMapping
-    public List<ChatContent> findAll() {
-        return chatContentService.findAll();
-    }
-
-    @GetMapping("/{id}")
-    public ChatContent findById(@PathVariable int id) {
-        return chatContentService.findById(id);
+    @GetMapping("/{roomID}")
+    public List<ChatContent> findByChatRoomChatRoomID(@PathVariable int roomID) {
+        System.out.println(roomID);
+        return chatContentService.findByChatRoomChatRoomID(roomID);
     }
 
     @PutMapping("/{id}")

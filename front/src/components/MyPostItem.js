@@ -12,6 +12,7 @@ import { getPost } from '../functions/CRUDFunctions';
 import { useNavigation } from '@react-navigation/native';
 import { Routes } from '../navigations/routes';
 
+
 const MyPostItem = memo(({ post }) => {
   const navigation = useNavigation();
   const width = useWindowDimensions().width;
@@ -44,11 +45,9 @@ const MyPostItem = memo(({ post }) => {
               source={post.postImage}
             />
           )}
-          <View style={styles.texts}>
-            <Text style={{ fontSize: 20 }}>{post.postTitle}</Text>
-            <Text style={{ fontSize: 15, fontWeight: '100' }}>
-              {post.townID}
-            </Text>
+          <View style={[styles.texts,{width:width}]}>
+          <Text style={{ fontSize: 15, flexWrap:'wrap',width:width*4/5-20,paddingRight:10}} numberOfLines={3}>{post.postTitle}</Text>
+            <Text style={{fontSize: 16 }}>{post.postCost + ' 원'}</Text>
             {post.postDealDone === true ? (
               <Text style={styles.done}>거래완료</Text>
             ) : (
@@ -66,12 +65,13 @@ MyPostItem.displayName = 'MyPostItem';
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'flex-start',
-    alignItems: 'flex-start',
+    // alignItems:'flex-start',
+    alignItems: 'center',
     backgroundColor: WHITE,
     paddingLeft: 10,
     paddingRight: 5,
-    paddingTop: 10,
-    paddingBottom: 5,
+    // paddingTop: 10,
+    // paddingBottom: 5,
     borderTopWidth: 0.5,
     borderBottomWidth: 0.5,
     borderBottomColor: BLACK,
@@ -89,6 +89,7 @@ const styles = StyleSheet.create({
   },
   texts: {
     marginLeft: 10,
+    
   },
 });
 

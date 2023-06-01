@@ -1,12 +1,10 @@
 import { View, Text, StyleSheet, FlatList } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
 import MyPostItem from '../../../components/MyPostItem';
 import { WHITE } from '../../../colors';
 import { useSelector } from 'react-redux';
 import { MyDealFalsePostList } from '../../../functions/PostList';
 const DealPurchaseScreen = () => {
-  const navigation = useNavigation();
-  const listItems = useSelector((state) => state.List.listItems);
+  const listItems = useSelector((state) => state.PostList.postListItems);
   const loginUser = useSelector((state) => state.User.loginUser);
   const MyDealFalsePost = MyDealFalsePostList(listItems, loginUser);
 

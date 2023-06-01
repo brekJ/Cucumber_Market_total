@@ -6,10 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { Avatar } from '@rneui/themed';
 import { Routes } from '../navigations/routes';
 import MyScreenItem from '../components/MyScreenItem';
-import { getUser } from '../functions/CRUDFunctions';
-import { useDispatch, useSelector } from 'react-redux';
-import { setLoginUser } from '../redux/UserSlice';
-import { useLayoutEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const MyScreen = () => {
   const { top } = useSafeAreaInsets();
@@ -27,7 +24,12 @@ const MyScreen = () => {
       >
         <Avatar
           rounded
-          source={{ uri: 'https://randomuser.me/api/portraits/men/33.jpg' }}
+          icon={{
+            name: 'person-outline',
+            type: 'material',
+            size: 32,
+          }}
+          containerStyle={[styles.profile, { backgroundColor: 'grey' }]}
         />
         <ListItem.Content>
           <ListItem.Title
@@ -62,13 +64,6 @@ const MyScreen = () => {
         iconType={'material-community'}
         color={GREEN.START_GREEN}
         title={'로그아웃'}
-      />
-      <MyScreenItem
-        route={Routes.CHART_SCREEN}
-        iconName={'basket'}
-        iconType={'material-community'}
-        color={GREEN.START_GREEN}
-        title={'차트'}
       />
     </View>
   );

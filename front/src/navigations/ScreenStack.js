@@ -4,19 +4,20 @@ import ContentTab from './ContentTab';
 import MainScreen from '../screens/MainScreen';
 import SignUpScreen from '../screens/SignUpScreen.js';
 import SignInScreen from '../screens/SignInScreen.js';
-import ListScreen from '../screens/ListScreen';
-import DetailItemScreen from '../screens/ListScreens/DetailItemScreen.js';
-import NewItemScreen from '../screens/ListScreens/NewItemScreen.js';
-import SearchScreen from '../screens/ListScreens/SearchScreen.js';
+import PostListScreen from '../screens/PostListScreen.js';
+import DetailItemScreen from '../screens/PostListScreens/DetailItemScreen.js';
+import NewItemScreen from '../screens/PostListScreens/NewItemScreen.js';
+import SearchScreen from '../screens/PostListScreens/SearchScreen.js';
 import ImagePickerScreen from '../screens/ItemPickerScreen.js';
-import EditItemScreen from '../screens/ListScreens/EditItemScreen.js';
+import EditItemScreen from '../screens/PostListScreens/EditItemScreen.js';
 import FavoriteItemScreen from '../screens/MyScreens/FavoriteItemScreen.js';
 import DealLogScreen from '../screens/MyScreens/DealLogScreen.js';
 import PurchaseLogScreen from '../screens/MyScreens/PurchaseLogScreen.js';
 import ChatScreen from '../screens/ChatScreens/ChatScreen.js';
-import NewPostScreen from '../screens/NewPostScreen.js';
-import CategoryScreen from '../screens/ListScreens/CategoryScreen.js';
+import CategoryScreen from '../screens/PostListScreens/CategoryScreen.js';
 import ChartScreen from '../screens/ChartScreen.js';
+import CategoryPostListScreen from '../screens/PostListScreens/CateogryPostListScreen.js';
+import CategorySelectScreen from '../screens/PostListScreens/CategorySelectScreen.js';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,7 +50,7 @@ const ScreenStack = () => {
         component={ContentTab}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name={Routes.LIST_SCREEN} component={ListScreen} />
+      <Stack.Screen name={Routes.POST_LIST_SCREEN} component={PostListScreen} />
       <Stack.Screen
         name={Routes.DETAIL_ITEM_SCREEN}
         component={DetailItemScreen}
@@ -60,7 +61,11 @@ const ScreenStack = () => {
         component={NewItemScreen}
         options={{ headerShown: false }}
       />
-      <Stack.Screen name={Routes.SEARCH_SCREEN} component={SearchScreen} />
+      <Stack.Screen
+        name={Routes.SEARCH_SCREEN}
+        component={SearchScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name={Routes.IMAGE_PICKER} component={ImagePickerScreen} />
       <Stack.Screen
         name={Routes.EDIT_ITEM_SCREEN}
@@ -88,11 +93,6 @@ const ScreenStack = () => {
         options={{ title: '구매내역' }}
       />
       <Stack.Screen
-        name={Routes.NEW_POST_SCREEN}
-        component={NewPostScreen}
-        options={{ title: '중고거래 글쓰기' }}
-      />
-      <Stack.Screen
         name={Routes.CATEGORY_SCREEN}
         component={CategoryScreen}
         options={{ title: '카테고리' }}
@@ -101,6 +101,16 @@ const ScreenStack = () => {
         name={Routes.CHART_SCREEN}
         component={ChartScreen}
         options={{ title: '차트' }}
+      />
+      <Stack.Screen
+        name={Routes.CATEGORY_POSTLIST_SCREEN}
+        component={CategoryPostListScreen}
+        options={{ title: '카테고리 리스트' }}
+      />
+      <Stack.Screen
+        name={Routes.CATEGORY_SELECT_SCREEN}
+        component={CategorySelectScreen}
+        options={{ title: '카테고리 선택' }}
       />
     </Stack.Navigator>
   );

@@ -21,10 +21,9 @@ public class User {
     private String userID;
     private String password;
     private String userName;
-
-    @Lob
-    @Column(columnDefinition = "BLOB")
-    private byte[] userImage;
+    
+    @Column(columnDefinition = "TEXT")
+    private String userImage;
     private String phoneNumber;
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")

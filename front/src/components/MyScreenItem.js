@@ -4,14 +4,12 @@ import { ListItem } from '@rneui/themed';
 import { Icon } from '@rneui/themed';
 import { useNavigation } from '@react-navigation/native';
 import { updateUser } from '../functions/CRUDFunctions';
-import { useDispatch, useSelector } from 'react-redux';
-import { setLoginUser } from '../redux/UserSlice';
+import { useSelector } from 'react-redux';
 
 const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
 
 const MyScreenItem = ({ route, iconName, iconType, color, title }) => {
   const navigation = useNavigation();
-  const dispatch = useDispatch();
 
   let loginUser = useSelector((state) => state.User.loginUser);
   //yyyy-mm-dd hh:mm:ss

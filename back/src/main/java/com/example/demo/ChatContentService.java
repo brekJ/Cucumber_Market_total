@@ -1,8 +1,9 @@
 package com.example.demo;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.List;
 
 @Service
@@ -20,8 +21,8 @@ public class ChatContentService {
         return chatContentRepository.save(chatContent);
     }
 
-    public List<ChatContent> findAll() {
-        return chatContentRepository.findAll();
+    public List<ChatContent> findByChatRoomChatRoomID(int roomID) {
+        return chatContentRepository.findByChatRoomChatRoomID(roomID);
     }
 
     public ChatContent findById(int id) {

@@ -31,6 +31,11 @@ public class ChatRoomController {
         return chatRoomService.findById(id);
     }
 
+    @GetMapping("/user/{id}")
+    public List<ChatRoom> findAllByUserTableID(@PathVariable int id) {
+        return chatRoomService.findAllByUserTableID(id);
+    }
+
     @PutMapping("/{id}")
     public ChatRoom update(@PathVariable int id, @ModelAttribute ChatRoom chatRoom) {
         chatRoom.setChatRoomID(id);

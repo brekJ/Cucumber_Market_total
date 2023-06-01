@@ -6,9 +6,9 @@ import { useSelector } from 'react-redux';
 import { FavoritePostList } from '../../functions/PostList';
 const FavoriteItemScreen = () => {
   const navigation = useNavigation();
-  const listItems = useSelector((state) => state.List.listItems);
-  const loginUser = useSelector(state=>state.User.loginUser) 
-  const favoritePost = FavoritePostList(listItems, loginUser)
+  const listItems = useSelector((state) => state.PostList.postListItems);
+  const loginUser = useSelector((state) => state.User.loginUser);
+  const favoritePost = FavoritePostList(listItems, loginUser);
 
   return (
     <View style={styles.container}>

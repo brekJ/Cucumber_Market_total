@@ -1,19 +1,20 @@
 //ListScreen밑에 있는 ContentTab
 
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import { Routes } from './routes';
-import ListScreen from '../screens/ListScreen';
+import PostListScreen from '../screens/PostListScreen';
 import ChatListScreen from '../screens/ChatListScreen';
 import MyScreen from '../screens/MyScreen';
+import ChartScreen from '../screens/ChartScreen';
 
 const Tab = createBottomTabNavigator();
 const ContentTab = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name={Routes.LIST_SCREEN}
-        component={ListScreen}
+        name={Routes.POST_LIST_SCREEN}
+        component={PostListScreen}
         options={{
           title: '물품 목록',
           tabBarIcon: () => <MaterialIcons name="home" size={34} />,
@@ -26,6 +27,15 @@ const ContentTab = () => {
         options={{
           title: '채팅',
           tabBarIcon: () => <MaterialIcons name="chat" size={34} />,
+          headerShown: false,
+        }}
+      />
+      <Tab.Screen
+        name={Routes.CHART_SCREEN}
+        component={ChartScreen}
+        options={{
+          title: '차트',
+          tabBarIcon: () => <AntDesign name="linechart" size={34} color="black" />,
           headerShown: false,
         }}
       />

@@ -1,9 +1,12 @@
 package com.example.demo;
-import lombok.*;
+
 import jakarta.persistence.*;
-import org.hibernate.annotations.CreationTimestamp;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -25,9 +28,9 @@ public class Post {
 
     private String postTitle;
 
-    @Lob
-    @Column(columnDefinition="BLOB")
-    private byte[] postImage;
+    @ElementCollection
+    @Column(columnDefinition = "TEXT")
+    private List<String> postImage;
 
     private int postCost;
 

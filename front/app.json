@@ -1,13 +1,13 @@
 {
   "expo": {
-    "name": "Cucumber_Market",
+    "name": "오이마켓",
     "slug": "Cucumber_Market",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/images/cucumber_icon.jpg",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/images/cucumber_splash.jpeg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,16 +18,14 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "test"
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.sunwonga.Cucumber_Market"
     },
     "plugins": [
       [
@@ -37,6 +35,11 @@
           "cameraPermission": "The app needs access your camera to take photos"
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "cbb81270-9090-45e8-8b88-6908464f77a3"
+      }
+    }
   }
 }

@@ -19,7 +19,6 @@ public class CustomUserRepositoryImplement implements CustomUserRepository {
         TypedQuery typedQuery = entityManager.createQuery("SELECT u FROM User u WHERE u.userID like :id", User.class);
         typedQuery.setParameter("id", userID);
         List<User> list = typedQuery.getResultList();
-        System.out.println("id : " + userID);
         return list;
     }
 
@@ -29,7 +28,6 @@ public class CustomUserRepositoryImplement implements CustomUserRepository {
         typedQuery.setParameter("id", userID);
         typedQuery.setParameter("password", password);
         List<User> list = typedQuery.getResultList();
-        System.out.println("id : " + userID + " password : " + password);
         return list;
     }
 }

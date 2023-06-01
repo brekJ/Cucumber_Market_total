@@ -1,13 +1,14 @@
 //DetailItemScreen, NewItemScreen, SearchScreen, UpdateItemScreen에서 사용
-import { getLocalUri } from '../components/ImagePicker';
 import axios from 'axios';
-import * as FileSystem from 'expo-file-system';
 import { Platform } from 'react-native';
+import { getIosImageFd } from './ImageFunctions';
 
-var API_BASE_URL = 'http://localhost:8080/api';
+let API_BASE_URL = 'http://localhost:8080/api';
 Platform.OS === 'ios'
   ? (API_BASE_URL = 'http://localhost:8080/api')
   : (API_BASE_URL = 'http://10.0.2.2:8080/api');
+
+// let API_BASE_URL = 'http://13.125.0.174:8080/api';
 
 //post
 export const getPosts = async () => {
@@ -18,7 +19,36 @@ export const getPosts = async () => {
     console.error(error);
   }
 };
-
+export const getPostsByPostTitle = async (postTitle) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/posts/search/${postTitle}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const getPostsByCategory = async (categoryID) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/posts/search/category/${categoryID}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+export const getPostsByTitleContent = async (text) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/posts/search/titlecontent/${text}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
 export const getPost = async (postId) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/posts/${postId}`);
@@ -168,9 +198,9 @@ export const createCategory = async (category) => {
   }
 };
 
-export const getChatContents = async () => {
+export const getChatContents = async (roomId) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/chatcontents`);
+    const response = await axios.get(`${API_BASE_URL}/chatcontents/${roomId}`);
     return response.data;
   } catch (error) {
     console.error(error);
@@ -218,9 +248,11 @@ export const updateChatContent = async (chatContentId, chatContent) => {
   }
 };
 
-export const getChatRooms = async () => {
+export const getChatRooms = async (userId) => {
   try {
-    const response = await axios.get(`${API_BASE_URL}/chatrooms`);
+    const response = await axios.get(
+      `${API_BASE_URL}/chatrooms/user/${userId}`
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -275,30 +307,53 @@ export const updateChatRoom = async (chatRoomId, chatRoom) => {
 
 //image
 export const uploadImage = async (images) => {
-  try {
-    await getLocalUri(images[0].id)
-      .then((localUri) => {
-        FileSystem.readAsStringAsync(localUri, { encoding: 'base64' })
+  return new Promise((resolve, reject) => {
+    getIosImageFd(images[0].id, images[0].filename.split('.')[0])
+      .then((res) => {
+        axios
+          .post(`${API_BASE_URL}/image`, res, {
+            headers: { 'content-type': 'multipart/formdata' },
+          })
           .then((res) => {
-            const base64String = 'data:image/heic;base64,' + res;
-            const fd = new FormData();
-            fd.append('image', base64String);
-            axios
-              .post(`${API_BASE_URL}/image`, fd)
-              .then((res) => {
-                console.log(res.data);
-              })
-              .catch((err) => {
-                console.log(err);
-              });
+            resolve(res.data);
           })
           .catch((err) => {
-            console.log(err);
+            reject(err);
           });
       })
       .catch((err) => {
-        console.log(err);
+        reject(err);
       });
+  });
+};
+export const getFavoritePostIds = async (userId) => {
+  try {
+    const response = await axios.get(
+      `${API_BASE_URL}/users/${userId}/favorite-posts`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const addFavoritePostId = async (userId, postId) => {
+  try {
+    const response = await axios.post(
+      `${API_BASE_URL}/users/${userId}/favorite-posts/${postId}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const removeFavoritePostId = async (userId, postId) => {
+  try {
+    const response = await axios.delete(
+      `${API_BASE_URL}/users/${userId}/favorite-posts/${postId}`
+    );
+    return response.data;
   } catch (error) {
     console.error(error);
   }

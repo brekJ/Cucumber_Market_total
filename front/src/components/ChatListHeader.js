@@ -7,7 +7,6 @@ const ChatListHeader = () => {
       <Text h4 style={{ flex: 1 }}>
         채팅
       </Text>
-      <Icon name="notifications" />
     </View>
   );
 };

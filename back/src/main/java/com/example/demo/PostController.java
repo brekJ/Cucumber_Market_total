@@ -36,6 +36,16 @@ public class PostController {
         return postService.findByName(name);
     }
 
+    @GetMapping("/search/category/{categoryID}")
+    public List<Post> findByCategory(@PathVariable int categoryID) {
+        return postService.findByCategory(categoryID);
+    }
+
+    @GetMapping("/search/titlecontent/{text}")
+    public List<Post> findByTitleContent(@PathVariable String text) {
+        return postService.findByTitleContent(text);
+    }
+
 
     @PutMapping("/{id}")
     public Post update(@PathVariable int id, @ModelAttribute Post post) {

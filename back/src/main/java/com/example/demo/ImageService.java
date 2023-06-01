@@ -19,14 +19,14 @@ public class ImageService {
     @Value("${app.s3.bucket}")
     private String bucketName;
 
-    public String uploadFile(byte[] bi, String type) {
+    public String uploadFile(byte[] bi, String fileName, String type) {
         ObjectMetadata metadata = new ObjectMetadata();
         InputStream fis = new ByteArrayInputStream(bi);
         metadata.setContentLength(bi.length);
         metadata.setContentType(type);
         type = type.substring(type.indexOf("/") + 1);
-        amazonS3.putObject(new PutObjectRequest(bucketName, "image." + type, fis, metadata));
-        return amazonS3.getUrl(bucketName, "image." + type).toString();
+        amazonS3.putObject(new PutObjectRequest(bucketName, fileName + "." + type, fis, metadata));
+        return amazonS3.getUrl(bucketName, fileName + "." + type).toString();
     }
 
     public S3Object downloadFile(String fileName) {

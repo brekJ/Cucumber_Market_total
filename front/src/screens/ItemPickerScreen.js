@@ -6,18 +6,19 @@ import { setImageValue } from '../redux/ImageSlice';
 import HeaderRight from '../components/HeaderRight';
 import ImagePicker from '../components/ImagePicker';
 
-const ImagePickerScreen = () => {
+const ImagePickerScreen = ({ route }) => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
   const stateRoutes = useNavigationState((state) => state.routes);
 
   const maxCount = 10;
+  const post = route.params.post;
   const [selectedPhotos, setSelectedPhotos] = useState([]);
   dispatch(setImageValue(selectedPhotos));
 
   const onSelect = useCallback(() => {
     const prevScreenName = stateRoutes[stateRoutes.length - 2].name;
-    navigation.navigate(prevScreenName, { selectedPhotos });
+    navigation.navigate(prevScreenName, { selectedPhotos, post: post });
   }, [navigation, selectedPhotos, stateRoutes]);
 
   useLayoutEffect(() => {

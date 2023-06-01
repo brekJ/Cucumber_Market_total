@@ -1,33 +1,56 @@
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, FlatList } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Routes } from '../navigations/routes';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setChatListItems } from '../redux/ChatListSlice';
+import { getChatRooms } from '../functions/CRUDFunctions';
 import { WHITE } from '../colors';
 import ChatListItem from '../components/ChatListItem';
 import ChatListHeader from '../components/ChatListHeader';
 
 const ChatScreen = ({ navigation }) => {
   const { top } = useSafeAreaInsets();
+  const dispatch = useDispatch();
+
+  const listItems = useSelector((state) => state.ChatList.chatListItems);
+  const loginUser = useSelector((state) => state.User.loginUser);
+
+  const [refreshing, setRefreshing] = useState(false);
+
+  const getRefreshData = async () => {
+    setRefreshing(true);
+    getChatRooms(loginUser.userTableID)
+      .then((res) => {
+        dispatch(setChatListItems(res));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setRefreshing(false);
+  };
+
+  const onRefresh = () => {
+    if (!refreshing) {
+      getRefreshData();
+    }
+  };
+
+  useEffect(() => {
+    getChatRooms(loginUser.userTableID).then((res) => {
+      dispatch(setChatListItems(res));
+    });
+  }, []);
 
   return (
     <View style={[styles.root, { paddingTop: top }]}>
       <ChatListHeader />
       <View style={styles.chatContainer}>
-        <ChatListItem
-          name="가순원"
-          lastChat="안녕하세요"
-          onPress={() => {
-            navigation.navigate(Routes.CHAT_SCREEN, {
-              user: {
-                userID: 2,
-                created: null,
-                phoneNumber: '01022345678',
-                statuss: 0,
-                updated: null,
-                userImage: null,
-                userName: '가순원',
-                favoritePostID: [3, 8, 60, 75],
-              },
-            });
+        <FlatList
+          onRefresh={onRefresh}
+          refreshing={refreshing}
+          data={listItems}
+          renderItem={({ item }) => {
+            return <ChatListItem chatRoom={item} navigation={navigation} />;
           }}
         />
       </View>

@@ -5,10 +5,12 @@ import { useNavigation } from '@react-navigation/native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Routes } from '../navigations/routes';
 import { useState } from 'react';
-import { checkUserInfo } from '../functions/CRUDFunctions';
+import { checkUserInfo, updateUser } from '../functions/CRUDFunctions';
 import { GREEN, WHITE } from '../colors';
 import { useDispatch } from 'react-redux';
 import { setLoginUser } from '../redux/UserSlice';
+
+const TIME_ZONE = 9 * 60 * 60 * 1000; // 9시간
 
 const SignInScreen = () => {
   const navigation = useNavigation();
@@ -19,16 +21,52 @@ const SignInScreen = () => {
   const [userId, setUserId] = useState('');
   const [password, setPassword] = useState('');
 
+  const createUserFd = (user) => {
+    const formdata = new FormData();
+    formdata.append('userTableID', user.userTableID);
+    formdata.append('userID', user.userID);
+    formdata.append('password', user.password);
+    formdata.append('phoneNumber', user.phoneNumber);
+    formdata.append('statuss', user.statuss);
+    formdata.append(
+      'created',
+      new Date(new Date(user.created).getTime() + TIME_ZONE)
+        .toISOString()
+        .replace('T', ' ')
+        .slice(0, -5)
+        .toString()
+    );
+    formdata.append(
+      'updated',
+      new Date(new Date(user.updated).getTime() + TIME_ZONE)
+        .toISOString()
+        .replace('T', ' ')
+        .slice(0, -5)
+        .toString()
+    );
+    formdata.append('userImage', user.userImage);
+    formdata.append('userName', user.userName);
+    formdata.append('favoritePostID', user.favoritePostID);
+    return formdata;
+  };
+
   const onSubmitUserInfoHandler = () => {
     checkUserInfo(userId, password)
       .then((res) => {
-        console.log(res);
-        if (res !== '' && res !== undefined) {
-          dispatch(setLoginUser(res));
-          navigation.reset({
-            index: 0,
-            routes: [{ name: Routes.CONTENT_TAB }],
-          });
+        if (res !== '' && res !== undefined && res.statuss !== 1) {
+          res.statuss = 1;
+          const fd = createUserFd(res);
+          updateUser(res.userTableID, fd)
+            .then((res) => {
+              dispatch(setLoginUser(res));
+              navigation.reset({
+                index: 0,
+                routes: [{ name: Routes.CONTENT_TAB }],
+              });
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
       })
       .catch((err) => {
@@ -44,7 +82,7 @@ const SignInScreen = () => {
       <View style={styles.root}>
         <View style={styles.inputContainer}>
           <Image
-            source={require('../../assets/images/mainIcon.png')}
+            source={require('../../assets/images/cucumber.jpeg')}
             style={{ width: 100, height: 100, borderRadius: 100 }}
           ></Image>
           <View style={{ width: '80%' }}>

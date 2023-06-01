@@ -9,10 +9,10 @@ import { useSelector } from 'react-redux';
 
 const DealEndScreen = () => {
   const navigation = useNavigation();
-  const listItems = useSelector((state) => state.List.listItems);
-  const loginUser = useSelector(state=>state.User.loginUser) 
-  const MyDealDonePost = MyDealDonePostList(listItems, loginUser)
-  
+  const listItems = useSelector((state) => state.PostList.postListItems);
+  const loginUser = useSelector((state) => state.User.loginUser);
+  const MyDealDonePost = MyDealDonePostList(listItems, loginUser);
+
   return (
     <View style={styles.container}>
       <View>

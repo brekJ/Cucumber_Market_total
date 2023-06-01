@@ -1,7 +1,10 @@
 package com.example.demo;
 
-import lombok.*;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.sql.Timestamp;
 
 @Data
@@ -25,9 +28,8 @@ public class ChatContent {
     @Column(columnDefinition = "TEXT")
     private String content;
 
-    @Lob
-    @Column(columnDefinition="BLOB")
-    private byte[] chatImage;
+    @Column(columnDefinition = "TEXT")
+    private String chatImage;
 
     @Column(columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Timestamp created;
